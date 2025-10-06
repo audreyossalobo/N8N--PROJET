@@ -1,0 +1,185 @@
+{
+  "name": "ENEO-PROJET",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "commande",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "185ec1e6-0ec9-4526-b6e1-f6d537f68779",
+      "name": "Webhook",
+      "webhookId": "072afaa6-2720-40b4-82ad-bcad4526d3ba"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "08e5dc01-ff1d-429e-9652-f8a68b40790c",
+              "leftValue": "={{ $json.body.fournisseur }}",
+              "rightValue": "ENEO",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "7210463c-9705-46f4-b545-8620e0841e05",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0d2e67df-3cd2-4d0d-bda1-e5d2ddb41a75",
+              "name": "valide",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "05e333e0-b27c-4337-9411-a939fbb2c7f2",
+              "name": "date_validation",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            },
+            {
+              "id": "a61c5a2f-7341-468f-b6ff-cebda4be98cb",
+              "name": "Agent",
+              "value": "Audrey",
+              "type": "string"
+            },
+            {
+              "id": "aef002a6-f0be-47bf-9d38-ab8275ca93a8",
+              "name": "commande_id",
+              "value": "={{ $json.body.commande_id }}",
+              "type": "string"
+            },
+            {
+              "id": "0e3c2e37-242a-4e42-bc8a-e8ca473e2c72",
+              "name": "client",
+              "value": "={{ $json.body.client.nom }}",
+              "type": "string"
+            },
+            {
+              "id": "46d25861-1e58-423f-85f5-30c457a66347",
+              "name": "e-mail",
+              "value": "={{ $json.body.client.email }}",
+              "type": "string"
+            },
+            {
+              "id": "715deb95-f609-430f-98ff-a3b92a0ffcca",
+              "name": "produit",
+              "value": "={{ $json.body.produit }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        -96
+      ],
+      "id": "8663ac7d-1dcb-45ab-840a-9caf56659bf9",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "localhost:5678",
+            "connection": "keep-alive",
+            "content-length": "175",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+            "content-type": "application/json",
+            "accept": "*/*",
+            "origin": "chrome-extension://gmmkjpcadciiokjpikmkkmapphbmdjok",
+            "sec-fetch-site": "none",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-storage-access": "active",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "fr-FR,fr;q=0.9,en;q=0.8,en-US;q=0.7"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "commande_id": "CMD-2025-001",
+            "fournisseur": "ENEO",
+            "client": {
+              "nom": "M. Dupont",
+              "email": "dupont@example.com"
+            },
+            "produit": "Compteur électrique"
+          },
+          "webhookUrl": "http://localhost:5678/webhook-test/commande",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "88adf293-02ff-4e6f-adb2-b73a733562c3",
+  "meta": {
+    "instanceId": "4d3937ff683347136d73601f911a229aa6b75fea69155b8c05071e1107f1548c"
+  },
+  "id": "ECGgSOK1zOdzNVXd",
+  "tags": []
+}
