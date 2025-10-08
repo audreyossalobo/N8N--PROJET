@@ -10,10 +10,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        0,
-        0
+        32,
+        352
       ],
-      "id": "185ec1e6-0ec9-4526-b6e1-f6d537f68779",
+      "id": "d8bd18d9-0d63-4dfd-8dda-70fe59ae1ace",
       "name": "Webhook",
       "webhookId": "072afaa6-2720-40b4-82ad-bcad4526d3ba"
     },
@@ -45,10 +45,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        208,
-        0
+        -256,
+        128
       ],
-      "id": "7210463c-9705-46f4-b545-8620e0841e05",
+      "id": "64c662a3-7f7d-4e64-a5fa-6e1eb980679f",
       "name": "If"
     },
     {
@@ -105,11 +105,49 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        416,
-        -96
+        -64,
+        112
       ],
-      "id": "8663ac7d-1dcb-45ab-840a-9caf56659bf9",
+      "id": "3ac3c73a-b05a-486d-890c-7d955b004dd0",
       "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "templateId": {
+          "__rl": true,
+          "value": "1542025",
+          "mode": "list",
+          "cachedResultName": "Invoice Example (ID: 1542025)"
+        },
+        "data": "={{ $json.body }}",
+        "documentOutput": "url",
+        "additionalFields": {}
+      },
+      "type": "@pdfgeneratorapi/n8n-nodes-pdf-generator-api.pdfGeneratorApi",
+      "typeVersion": 1,
+      "position": [
+        240,
+        352
+      ],
+      "id": "f33da0a6-cef1-47d9-9e21-4cc9aeecd3d8",
+      "name": "Generate a PDF document"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Webhook').item.json.body.client.email }}",
+        "subject": "Invoice for command",
+        "message": "=<a href=\"{{ $json.response }}\"> Download Invoice</a>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        448,
+        352
+      ],
+      "id": "8569080a-ee8e-48de-807a-6f627496abd0",
+      "name": "Send a message",
+      "webhookId": "5e69391a-03ec-4720-ab2e-77f030230c83"
     }
   ],
   "pinData": {
@@ -146,6 +184,20 @@
           "executionMode": "test"
         }
       }
+    ],
+    "Generate a PDF document": [
+      {
+        "json": {
+          "response": "https://us1.pdfgeneratorapi.com/api/v4/documents/76573/a052cc4c19c8b82ae0e0a5d3fc8b78ff/share",
+          "meta": {
+            "name": "968567f64f7b33cc7ed841d095c0a1b1.pdf",
+            "display_name": "968567f64f7b33cc7ed841d095c0a1b1",
+            "encoding": "binary",
+            "content-type": "application/pdf",
+            "public_id": "a052cc4c19c8b82ae0e0a5d3fc8b78ff"
+          }
+        }
+      }
     ]
   },
   "connections": {
@@ -153,7 +205,7 @@
       "main": [
         [
           {
-            "node": "If",
+            "node": "Generate a PDF document",
             "type": "main",
             "index": 0
           }
@@ -170,16 +222,28 @@
           }
         ]
       ]
+    },
+    "Generate a PDF document": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
-  "active": true,
+  "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "88adf293-02ff-4e6f-adb2-b73a733562c3",
+  "versionId": "060e0917-507f-4b03-a83b-34e707498277",
   "meta": {
-    "instanceId": "4d3937ff683347136d73601f911a229aa6b75fea69155b8c05071e1107f1548c"
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a2166150b973418944e84c9200f2499fdd93d0eb5b2573f7b6ed9bc1a5ca7944"
   },
-  "id": "ECGgSOK1zOdzNVXd",
+  "id": "VfK0rKdE1cjYJPQb",
   "tags": []
 }
